@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quiz app</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Welcome to our Quiz</h1>
+      <p>Lets see who's gonna win the million</p>
+    </header>
+    <main>
+      <section class="start" id="start">
+        <button class="start-button" onclick="start()">Start quiz</button>
+      </section>
+      <section class="start" id="timer">
+        <button class="start-button" id="timer-btn">5</button>
+      </section>
+      <section class="questions" id="questions">
+        <div class="qa">
+          <p id="qest">Questions will be dislayed in this section</p>
+        </div>
+        <div class="options" id="quiz-questions">
+          <ul>
+            <li class="option">A</li>
+            <li class="option correct">B</li>
+            <li class="option incorrect">C</li>
+            <li class="option selected">D</li>
+          </ul>
+        </div>
+        <div class="control-btn">
+          <button class="next-btn next" onclick="next()">Next question</button>
+          <button class="confirm-btn" onclick="confirm()">confirm</button>
+        </div>
+      </section>
+    </main>
+    <script src="script.js"></script>
+  </body>
+</html>
