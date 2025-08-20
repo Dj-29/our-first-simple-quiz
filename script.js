@@ -1,29 +1,42 @@
-const QA = {
-  q: "What is the capital of Palestine ?",
-  a: ["Jeruselem", "Ram Allah", "Gaza", "Deir el Balah"],
-  cIDx: 0,
-};
+const QA = [
+  {
+    q: "What is the capital of Palestine ?",
+    a: ["Jeruselem", "Ram Allah", "Gaza", "Deir el Balah"],
+    cIDx: 0,
+  },
+  {
+    q: "who's the goat?",
+    a: ["messi", "Ronaldo", "mahrez", "rayan"],
+    cIDx: 3,
+  },
+  {
+    q: "what's the capital of Algeria ?",
+    a: ["algiers", "oran", "ourgla", "blida"],
+    cIDx: 0,
+  },
+];
 
 let selectedAnswers = null;
 let hasConfirmed = false;
 let time = 5;
 let functionTimer;
+let qidx = 0;
 
 const gameSection = document.getElementById("questions");
 const timerSection = document.getElementById("timer");
 const startSection = document.getElementById("start");
 const qtext = document.getElementById("qest");
 const optionsList = document.getElementById("quiz-questions");
-const confirmBtn = document.getElementById("confirm-btn");
+const confirmBtn = document.getElementById("confirm-button");
 const timerButton = document.getElementById("timer-btn");
-const nextButton = document.getElementById("next-btn");
+const nextButton = document.getElementById("next-button");
 const start = () => {
   startSection.style.display = "none";
   timerSection.style.display = "flex";
   timer();
-  qtext.textContent = QA.q;
+  qtext.textContent = QA[qidx].q;
 
-  const ans = QA.a
+  const ans = QA[qidx].a
     .map((el, idx) => {
       return `<li class="option" key="idx" onclick="select(${idx})"> ${el}</li>`;
     })
@@ -48,9 +61,9 @@ const timer = () => {
 const startQuiz = () => {
   timerSection.style.display = "none";
   gameSection.style.display = "block ";
-  qtext.textContent = QA.q;
+  qtext.textContent = QA[qidx].q;
 
-  const ans = QA.a
+  const ans = QA[qidx].a
     .map((el, idx) => {
       return `<li class="option" key="idx" onclick="select(${idx})"> ${el}</li>`;
     })
@@ -72,14 +85,26 @@ const confirm = () => {
     return;
   }
   if (hasConfirmed) return;
-  const correctAnswer = QA.a
+  const correctAnswer = QA[qidx].a
     .map((el, idx) => {
       const correctans =
-        idx == QA.cIDx ? "correct" : idx == selectedAnswers ? "incorrect" : "";
+        idx == QA[qidx].cIDx
+          ? "correct"
+          : idx == selectedAnswers
+          ? "incorrect"
+          : "";
       return `<li class="option ${correctans}"  data-index="${idx}onclick="select(${idx})"> ${el}</li>`;
     })
     .join("");
 
   optionsList.innerHTML = correctAnswer;
   hasConfirmed = true;
+  nextButton.style.display = "block";
+};
+const next = () => {
+  if (!hasConfirmed) return;
+  qidx++;
+  hasConfirmed = false;
+  nextButton.style.display = "none";
+  startQuiz();
 };
