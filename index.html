@@ -3,43 +3,35 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Quiz app</title>
     <link rel="stylesheet" href="style.css" />
+    <title>Quiz app</title>
   </head>
   <body>
-    <header>
-      <h1>Welcome to our Quiz</h1>
-      <p>Lets see who's gonna win the million</p>
-    </header>
-    <main>
-      <section class="start" id="start">
-        <button class="start-button" onclick="start()">Start quiz</button>
-      </section>
-      <section class="start" id="timer">
-        <button class="start-button" id="timer-btn">5</button>
-      </section>
-      <section class="questions" id="questions">
-        <div class="qa">
-          <p id="qest">Questions will be dislayed in this section</p>
-        </div>
-        <div class="options" id="quiz-questions">
-          <ul>
-            <li class="option">A</li>
-            <li class="option correct">B</li>
-            <li class="option incorrect">C</li>
-            <li class="option selected">D</li>
-          </ul>
-        </div>
-        <div class="control-btn">
-          <button class="confirm-btn" id="confirm-button" onclick="confirm()">
-            confirm
-          </button>
-          <button class="next-btn next" id="next-button" onclick="next()">
-            Next question
-          </button>
-        </div>
-      </section>
-    </main>
+    <div class="container">
+      <!-- Start Section -->
+      <div id="start" class="section">
+        <h1>Welcome to the Quiz!</h1>
+        <p>Test your knowledge with 3 questions</p>
+        <button class="start-btn" onclick="start()">Start Quiz</button>
+      </div>
+
+      <!-- Timer Section -->
+      <div id="timer" class="section">
+        <h1>Get Ready!</h1>
+        <p>Quiz starts in:</p>
+        <button id="timer-btn">5</button>
+      </div>
+
+      <!-- Questions Section -->
+      <div id="questions" class="section">
+        <h2 id="qest">Question will appear here</h2>
+        <ul id="quiz-questions">
+          <!-- Options will be inserted here -->
+        </ul>
+        <button id="confirm-button" onclick="confirm()">Confirm Answer</button>
+        <button id="next-button" onclick="next()">Next Question</button>
+      </div>
+    </div>
     <script src="script.js"></script>
   </body>
 </html>

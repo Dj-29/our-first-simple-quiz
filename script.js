@@ -15,12 +15,16 @@ const QA = [
     cIDx: 0,
   },
 ];
+const RES = [];
 
 let selectedAnswers = null;
 let hasConfirmed = false;
+let results = false;
 let time = 5;
 let functionTimer;
 let qidx = 0;
+let cdownInterval;
+cdown = 10;
 
 const gameSection = document.getElementById("questions");
 const timerSection = document.getElementById("timer");
@@ -30,6 +34,10 @@ const optionsList = document.getElementById("quiz-questions");
 const confirmBtn = document.getElementById("confirm-button");
 const timerButton = document.getElementById("timer-btn");
 const nextButton = document.getElementById("next-button");
+const cdownText = document.getElementById("countdown");
+const finishButton = document.getElementById("finish-button");
+const resultsSection = document.getElementById("results");
+
 const start = () => {
   startSection.style.display = "none";
   timerSection.style.display = "flex";
@@ -68,9 +76,22 @@ const startQuiz = () => {
       return `<li class="option" key="idx" onclick="select(${idx})"> ${el}</li>`;
     })
     .join("");
+  //counting();
 
   optionsList.innerHTML = ans;
 };
+// const counting = () => {
+//   cdownInterval = setInterval(() => {
+//     cdownText.textContent = `Time left: ${cdown}s`;
+
+//     if (cdown <= 0) {
+//       console.log("yooooo", cdown <= 0);
+//       clearInterval(cdownInterval);
+//     }
+//     cdown--;
+//   }, 1000);
+// };
+
 const select = (idx) => {
   selectedAnswers = idx;
   const options = document.querySelectorAll(".option");
@@ -99,12 +120,55 @@ const confirm = () => {
 
   optionsList.innerHTML = correctAnswer;
   hasConfirmed = true;
-  nextButton.style.display = "block";
+  nextButton.style.display = "inline-block";
+  RES.push({
+    question: qidx,
+    select: selectedAnswers,
+    correct: QA[qidx].cIDx,
+  });
+  console.log(RES);
 };
 const next = () => {
   if (!hasConfirmed) return;
   qidx++;
   hasConfirmed = false;
   nextButton.style.display = "none";
+
+  if (qidx >= QA.length) {
+    window.alert("The quiz is over! Thanks for playing!");
+    return;
+  }
+
   startQuiz();
+};
+const finish = () => {
+  resultsSection.style.display = "block";
+  gameSection.style.display = "none";
+  resultsSection.innerHTML = "<h1>Your Answers:</h1>";
+  console.log(displayResults());
+  resultsSection.innerHTML = displayResults();
+};
+const displayResults = () => {
+  return RES.map((el, index) => {
+    console.log(el);
+    return `<li class="qa-item">
+                <div class="question">
+                  <span class="question-label">Q:</span>
+                  <span class="question-text">${QA[el.question].q}</span>
+                </div>
+                <div class="answer">
+                  <span class="answer-label">A:</span>
+                  <span class="answer-text">${
+                    QA[el.question].a[el.select]
+                  }</span>
+                </div>
+              </li>
+              <div class="correct-answer">
+                  <span class="answer-label">CA:</span>
+                  <span class="answer-text">${
+                    QA[el.question].a[el.correct]
+                  }</span>
+                </div>
+              </li>`;
+  }).join("");
 };
