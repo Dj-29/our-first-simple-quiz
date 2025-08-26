@@ -20,7 +20,7 @@ const RES = [];
 let selectedAnswers = null;
 let hasConfirmed = false;
 let results = false;
-let time = 5;
+let time = 4;
 let functionTimer;
 let qidx = 0;
 let cdownInterval;
@@ -37,6 +37,7 @@ const nextButton = document.getElementById("next-button");
 const cdownText = document.getElementById("countdown");
 const finishButton = document.getElementById("finish-button");
 const resultsSection = document.getElementById("results");
+const scoreSection = document.getElementById("score");
 
 const start = () => {
   startSection.style.display = "none";
@@ -147,9 +148,11 @@ const finish = () => {
   resultsSection.innerHTML = "<h1>Your Answers:</h1>";
   console.log(displayResults());
   resultsSection.innerHTML = displayResults();
+
+  saveQuiz();
 };
 const displayResults = () => {
-  return RES.map((el, index) => {
+  return RES.map((el) => {
     console.log(el);
     return `<li class="qa-item">
                 <div class="question">
@@ -169,6 +172,24 @@ const displayResults = () => {
                     QA[el.question].a[el.correct]
                   }</span>
                 </div>
-              </li>`;
+              </li>
+              `;
   }).join("");
+};
+
+const saveQuiz = () => {
+  let history = JSON.parse(localStorage.getItem("quizHistory")) || [];
+  const scoreCounting = RES.filter((el) => el.select === el.correct).length;
+  history.push({
+    date: new Date().toISOString(),
+    score: `${scoreCounting}/${QA.length}`,
+    total: QA.length,
+    answers: RES,
+  });
+
+  localStorage.setItem("quizHistory", JSON.stringify(history));
+};
+
+const QuizHistory = () => {
+  return JSON.parse(localStorage.getItem("quizHistory"));
 };

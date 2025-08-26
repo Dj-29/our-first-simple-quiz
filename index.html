@@ -22,7 +22,6 @@
         <button id="timer-btn">5</button>
       </div>
 
-      <!-- Questions Section -->
       <div id="questions" class="section">
         <h2 id="qest">Question will appear here</h2>
         <ul id="quiz-questions">
@@ -30,6 +29,14 @@
         </ul>
         <button id="confirm-button" onclick="confirm()">Confirm Answer</button>
         <button id="next-button" onclick="next()">Next Question</button>
+        <button id="finish-button" onclick="finish()">go to score</button>
+      </div>
+
+      <div id="results" class="section" style="display: none">
+        <h2>Results</h2>
+      </div>
+      <div id="score" style="display: none">
+        <h3>Your score is</h3>
       </div>
     </div>
     <script src="script.js"></script>
