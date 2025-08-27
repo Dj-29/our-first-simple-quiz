@@ -38,6 +38,8 @@ const cdownText = document.getElementById("countdown");
 const finishButton = document.getElementById("finish-button");
 const resultsSection = document.getElementById("results");
 const scoreSection = document.getElementById("score");
+const nameSection = document.getElementById("name");
+const saveButton = document.getElementById("save-btn");
 
 const start = () => {
   startSection.style.display = "none";
@@ -69,6 +71,7 @@ const timer = () => {
 
 const startQuiz = () => {
   timerSection.style.display = "none";
+
   gameSection.style.display = "block ";
   qtext.textContent = QA[qidx].q;
 
@@ -81,17 +84,17 @@ const startQuiz = () => {
 
   optionsList.innerHTML = ans;
 };
-// const counting = () => {
-//   cdownInterval = setInterval(() => {
-//     cdownText.textContent = `Time left: ${cdown}s`;
+const counting = () => {
+  cdownInterval = setInterval(() => {
+    cdownText.textContent = `Time left: ${cdown}s`;
 
-//     if (cdown <= 0) {
-//       console.log("yooooo", cdown <= 0);
-//       clearInterval(cdownInterval);
-//     }
-//     cdown--;
-//   }, 1000);
-// };
+    if (cdown <= 0) {
+      console.log("yooooo", cdown <= 0);
+      clearInterval(cdownInterval);
+    }
+    cdown--;
+  }, 1000);
+};
 
 const select = (idx) => {
   selectedAnswers = idx;
@@ -144,12 +147,12 @@ const next = () => {
 };
 const finish = () => {
   resultsSection.style.display = "block";
+  nameSection.style.display = "block";
+  saveButton.style.display = "inline-block";
   gameSection.style.display = "none";
   resultsSection.innerHTML = "<h1>Your Answers:</h1>";
   console.log(displayResults());
   resultsSection.innerHTML = displayResults();
-
-  saveQuiz();
 };
 const displayResults = () => {
   return RES.map((el) => {
@@ -176,20 +179,53 @@ const displayResults = () => {
               `;
   }).join("");
 };
+const save = () => {
+  saveQuiz();
+  displayScores();
+};
 
 const saveQuiz = () => {
   let history = JSON.parse(localStorage.getItem("quizHistory")) || [];
+
   const scoreCounting = RES.filter((el) => el.select === el.correct).length;
+  const name = nameSection.value;
+  console.log(name);
   history.push({
+    username: name,
     date: new Date().toISOString(),
-    score: `${scoreCounting}/${QA.length}`,
-    total: QA.length,
+    score: scoreCounting / QA.length,
     answers: RES,
   });
-
+  displayScores();
   localStorage.setItem("quizHistory", JSON.stringify(history));
 };
 
 const QuizHistory = () => {
   return JSON.parse(localStorage.getItem("quizHistory"));
+};
+
+const getALL = () => {
+  const all = [];
+  for (let i = 0; i < localStorage.length; i++) {
+    const item = localStorage.getItem(localStorage.key(i));
+    all.push(JSON.parse(item));
+  }
+  all.sort((a, b) => b.score - a.score);
+  console.log("all from :", all);
+  return all;
+};
+const displayScores = () => {
+  const scores = getALL();
+  return scores
+    .map((el) => {
+      return `<li class="qa-item">
+    <div class="name">
+    <span>${el.name}</span>
+    </div>
+    <div class="score">
+    <span>${el.score}</span>
+    </div>
+    </li>`;
+    })
+    .join("");
 };

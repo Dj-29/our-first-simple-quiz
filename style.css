@@ -141,3 +141,7 @@ h1 {
 #finish-buttton {
   display: none;
 }
+#name,
+#save-btn {
+  display: none;
+}
